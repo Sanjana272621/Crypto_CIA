@@ -64,21 +64,27 @@ if __name__ == "__main__":
 
     print("Original:", message)
 
+    # Normalize original message for hashing
+    normalized_message = message.replace(" ", "").upper()
+
+    # Encrypt
     encrypted = encrypt_route_cipher(message, rows)
     print("Encrypted:", encrypted)
 
-    original_hash = simple_hash(message)
+    # Hash original (normalized)
+    original_hash = simple_hash(normalized_message)
+    print("Original Hash:", original_hash)
 
+    # Decrypt
     decrypted = decrypt_route_cipher(encrypted, rows)
     print("Decrypted:", decrypted)
 
+    # Hash decrypted
     decrypted_hash = simple_hash(decrypted)
-
-    print("Original Hash:", original_hash)
     print("Decrypted Hash:", decrypted_hash)
 
-    no_space_message = message.replace(" ", "")
-    if no_space_message == decrypted_hash:
+    # Verify integrity
+    if original_hash == decrypted_hash:
         print("Integrity Verified")
     else:
         print("Integrity Failed")
